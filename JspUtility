@@ -1,0 +1,68 @@
+public class JspUtility {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String campi = "private int id_cliente;\r\n" + 
+				"	private String ragione_sociale;\r\n" + 
+				"	private String cf_piva;\r\n" + 
+				"	private String stato;\r\n" + 
+				"	private String email;\r\n" + 
+				"	private int telefono;\r\n" + 
+				"	private String indirizzo;\r\n" + 
+				"	private String categoria;";
+		
+		
+		campi=campi.replace("private", "");
+		campi=campi.replaceAll("String", "");
+		campi=campi.replaceAll("int", "");
+		campi=campi.replaceAll("float", "");
+		campi=campi.replaceAll("Date", "");
+		campi=campi.replaceAll(";", "");
+		
+
+		String [] names = campi.split("\\s+");
+		StringBuilder headerSB = new StringBuilder();
+		StringBuilder tdSB = new StringBuilder();
+		StringBuilder jsParamSB = new StringBuilder();
+		StringBuilder autofillSB = new StringBuilder();
+		StringBuilder jsParamSB2 = new StringBuilder();
+		StringBuilder formSB = new StringBuilder();
+		
+
+		for(int i =1; i< names.length; i++) {
+			String name = names[i];
+			headerSB.append("<th>"+name.substring(0,1).toUpperCase()+name.substring(1)+"</th>\n");
+			tdSB.append("<td>${x."+name+"}</td>\n");
+			
+			jsParamSB.append("'${x."+name+"}',\n");
+			jsParamSB2.append(name+",");
+			
+			autofillSB.append(String.format("document.getElementById('%s').value = %s;\n",name,name));
+			
+			formSB.append(String.format(
+					"<label for=\"%s\">%s</label>\n"
+					+ "<input type=\"text\" id=\"%s\" "
+					+ "name=\"%s\" placeholder=\"%s\">\n\n",
+					name,name.substring(0,1).toUpperCase()+name.substring(1),
+					name,
+					name,"Inserisci "+name+"..."));
+		}
+		
+		
+		
+		System.out.println(headerSB);
+		System.out.println(tdSB);
+		System.out.println(jsParamSB);
+		
+		System.out.println("<script>\nfunction autoFillForm("+jsParamSB2+"){");
+		System.out.println(autofillSB+"}\n</script>\n");
+		System.out.println(formSB);
+		
+		
+		
+		
+		
+	}
+
+}
