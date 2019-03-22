@@ -91,8 +91,10 @@ public class DipendenteUtil {
 	 * - Elimina (dalla tabella assegnazione_commessa) tutte le associazioni tra il dipendente
 	 *   eliminato e qualsiasi commessa.
 	 * - Elimina dalla tabella assegnazione_cespiti tutte le associazioni tra il dipendente eliminato e qualunque cespite.
-	 * - Elimina dalla tabella note tutte le note del dipendente eliminato */
-	public void elimina(DipendenteService ds,AssegnazioneCespitiService acs,AssegnazioneCommesseService acs2,NoteService ns,RilService rs,RecuperoPasswordService rps,int id) {
+	 * - Elimina dalla tabella note tutte le note del dipendente eliminato 
+	 * - Elimina  ril e richieste di recupero password del dipendente eliminato */
+	
+	public void elimina(DipendenteService ds,AssegnazioneCespitiService acs,AssegnazioneCommesseService acs2,NoteService ns,RilService rs,RecuperoPasswordService rps,CespiteService cs,int id) {
 		Optional<List<AssegnazioneCommesse>> acoList=acs2.getAssCommesseByIdDipendente(id);
 		Optional<List<AssegnazioneCespiti>> aceList=acs.getAssCespitiByIdDipendente(id);
 		Optional<List<Note>> nList=ns.getNoteByDipendente(id);
@@ -110,7 +112,8 @@ public class DipendenteUtil {
 			List<AssegnazioneCespiti> list=aceList.get();
 			for(AssegnazioneCespiti ac : list) {
 				acs.delete(ac);
-				
+				Cespite c=cs.getOne(ac.getId_cespite());
+				c.setStato("Non Assegnato");
 			}
 		}
 		if(nList.isPresent()) {
