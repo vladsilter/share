@@ -1,6 +1,9 @@
 package com.sincrono.gestionale.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +127,7 @@ public class CommercialeController {
 	 * (o qualcosa del genere) con tutte le assegnazione di commesse presenti e modificabili */
 	@RequestMapping(path="/modAssCommessa") 
 	public String modCommessa ( Model m, @RequestParam int prezzo,@RequestParam int costo,@RequestParam int idAssegnazione,
-			@RequestParam int idDipendente, @RequestParam int idC) {
+			@RequestParam int idDipendente, @RequestParam int idC,@RequestParam String fin) {
 		acu.modifica(acs,idAssegnazione,idDipendente,costo,prezzo);
 		
 		List<Dipendente> listadip= du.getListaDipendentebyListaIdDip(dipendenteService, acs.getIdDipFromIdCommessa(idC));
@@ -167,7 +170,7 @@ public class CommercialeController {
 		m.addAttribute("ruolo1",ruolo1);
 		m.addAttribute("idcom", idC);
 		m.addAttribute("idCommessa",idC);
-		return "AssegnamentoCommesse";
+		return AssComm(m,idC,fin);
 	}
 	
 	//per visualizzare tabella commesse
@@ -205,57 +208,120 @@ public class CommercialeController {
 	
 	//per visualizzare tabella assegnazione commessa
 	@RequestMapping(path="/assegnazioneCommessa")
-	public String AssComm(Model m,@RequestParam int id_commessa) {
-	
+	public String AssComm(Model m,@RequestParam int id_commessa, @RequestParam String fin) {
+
+		
+
 		List<Dipendente> listadip= du.getListaDipendentebyListaIdDip(dipendenteService, acs.getIdDipFromIdCommessa(id_commessa));
+
 		
+
 		List<String> ruolo= new ArrayList<String>();
+
 		List<Integer> id = new ArrayList<Integer>();
+
 		for(Dipendente d : listadip) {
+
 			id.add(d.getId_ruolo());
+
 		}
+
 		for (Integer id_r: id) {
+
 			ruolo.add(rs.findById(id_r).get().getTitolo());
+
 		}
+
 		
+
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+
+		Date fin1;
+		try {
+			fin1 = format.parse(fin);
+			m.addAttribute("fin",fin1);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	
+
+		
+
 		m.addAttribute("asse",acu.getidAsseCommbyListCommessa(acs, acs.getListaAssegnamentoCommessebyIdCommessa(id_commessa)));
+
 		m.addAttribute("titolo",cs.getTitleFromId(id_commessa).get());
+
 		m.addAttribute("idCommessa",id_commessa);
+
 		m.addAttribute("iddipe",listadip);
+
 		m.addAttribute("ruolo",ruolo);
+
 		m.addAttribute("costo",acs.getListaCostoFromIdCommessa(id_commessa));
+
 		m.addAttribute("prezzo",acs.getListaPrezzoFromIdCommessa(id_commessa));
 
+
+
 		//per visualizzare tabella dipendenti non assegnati
+
 		List<Dipendente> listatuttidip = dipendenteService.findAll();
+
 		List<Dipendente> listadipnonassegnati= new ArrayList<Dipendente>();
+
 		for (Dipendente dipendente: listatuttidip) {
+
 			if(listadip.contains(dipendente)==false) {
+
 				listadipnonassegnati.add(dipendente);
+
 			}
+
 		}
+
 		
+
 		List<String> ruolo1= new ArrayList<String>();
+
 		List<Integer> id1 = new ArrayList<Integer>();
+
 		for(Dipendente d1 : listadipnonassegnati) {
+
 			id1.add(d1.getId_ruolo());
+
 		}
+
 		for (Integer id_r: id1) {
+
 			ruolo1.add(rs.findById(id_r).get().getTitolo());
+
 		}
+
 		
+
 		m.addAttribute("nonasse",listadipnonassegnati);
+
 		m.addAttribute("ruolo1",ruolo1);
+
 		m.addAttribute("idcom", id_commessa);
+
 		
+
 		return "AssegnamentoCommesse";
+
 	}
+
+	
+
+		
 
 	
 	
 	@RequestMapping(path="/assignCommessa") 
 	public String assCommessa (Model m,@RequestParam int idDipendente,@RequestParam int idCommessa,@RequestParam float costo,
-			@RequestParam float prezzo) {
+			@RequestParam float prezzo,@RequestParam String fin) {
 		
 		if(!acs.getIdAssegnamentoEsistente(idDipendente,idCommessa).isPresent()){
 			acu.inserisci(acs,idDipendente,idCommessa,costo,prezzo);
@@ -302,15 +368,13 @@ public class CommercialeController {
 		m.addAttribute("nonasse",listadipnonassegnati);
 		m.addAttribute("ruolo1",ruolo1);
 		m.addAttribute("idcom", idCommessa);
-		
-				
-		
-		return "AssegnamentoCommesse";
+			
+		return AssComm(m,idCommessa,fin);
 	}
 	@RequestMapping(path="/deleteCommessa") 
-	public String deleteAssCommessa (Model m,@RequestParam int idAssegnazioneCommessa,@RequestParam int idCommessa) {
+	public String deleteAssCommessa (Model m,@RequestParam int idAssegnazioneCommessa,@RequestParam int idCommessa,@RequestParam String fin) {
 		acu.elimina(acs,idAssegnazioneCommessa);
-		return AssComm(m,idCommessa);
+		return AssComm(m,idCommessa,fin);
 	}
 	
 }
