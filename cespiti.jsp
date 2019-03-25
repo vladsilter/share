@@ -209,15 +209,9 @@ form, select { color: black;}
 						<input type="text" id="descrizione" name="descrizione" placeholder="Inserisci descrizione...">			
 						
 						<label for="tipoDropdown">Tipologia</label>
-						<select id="tipoDropdown" name="tipologiaCespite">
-							<option value="Elettronica">Elettronica</option>
-							<option value="Arredamento">Arredamento</option>
-					    </select>	
-
-
-<!-- 						    <input style="float: left;" type="button" value="Annulla" onclick="resetForm()"> -->
-<!-- 						    <input style="float: right;" type="submit" onclick="resetForm()" value="Salva"> -->
-			    
+						<select id="tipoDropdown1" name="tipologiaCespite">
+							
+					    </select>			    
   						</div>
 						<div class="modal-footer">
   							<input type="submit" class="btn btn-primary btn-md" value="Conferma Modifiche"/>
@@ -252,15 +246,9 @@ form, select { color: black;}
 						<input type="text" id="descrizione" name="descrizione" placeholder="Inserisci descrizione...">			
 						
 						<label for="tipoDropdown">Tipologia</label>
-						<select id="tipoDropdown" name="tipologiaCespite">
-							<option value="Elettronica">Elettronica</option>
-							<option value="Arredamento">Arredamento</option>
-					    </select>	
+						<select id="tipoDropdown2" name="tipologiaCespite">
+						</select>	
 
-
-<!-- 						    <input style="float: left;" type="button" value="Annulla" onclick="resetForm()"> -->
-<!-- 						    <input style="float: right;" type="submit" onclick="resetForm()" value="Salva"> -->
-			    
   						</div>
 						<div class="modal-footer">
   							<input type="submit" class="btn btn-primary btn-md" value="Conferma Modifiche"/>
@@ -291,7 +279,7 @@ form, select { color: black;}
  						<div class="form-group">
 						 					 		
 						<input type="number" id="idCesp" name="idCesp" style="display: none;">
-						<input type="number" id="idDipDaPassare" name="idDip" style="display: none;">
+						<input type="number" id="idDipDaPassare" name="idDip" style="display: none;" required>
 							
 							<div class="table-wrapper-scroll-y my-custom-scrollbar">
 				 				<table class="table table-bordered table-striped" id="MyAddingTable">
@@ -317,7 +305,7 @@ form, select { color: black;}
 								 </table>
 				  			</div>
 				  			<label for="dataInizio">Data inizio assegnazione</label>
-						    <input type="date" id="dataInizio" name = "dataI">
+						    <input type="date" id="dataInizio" name = "dataI" required>
 						    <br/>
 						    <label for="dataFine">Data fine assegnazione</label>
 						    <input type="date" id="dataFine" name ="dataF">
@@ -350,7 +338,7 @@ form, select { color: black;}
  						<div class="form-group">
 						 					 		
 						<input type="number" id="idCesp2" name="idCesp2" style="display: none;">
-						<input type="number" id="idStrDaPassare" name="idStruct" style="display: none;">
+						<input type="number" id="idStrDaPassare" name="idStruct" style="display: none;" required>
 							
 							<div class="table-wrapper-scroll-y my-custom-scrollbar">
 				 				<table class="table table-bordered table-striped" id="MyAddingTable2">
@@ -371,7 +359,7 @@ form, select { color: black;}
 								 </table>
 				  			</div>
 				  			<label for="dataInizio">Data inizio assegnazione</label>
-						    <input type="date" id="dataInizio2" name = "dataIn">
+						    <input type="date" id="dataInizio2" name = "dataIn" required>
 						    <br/>
 						    <label for="dataFine">Data fine assegnazione</label>
 						    <input type="date" id="dataFine2" name ="dataFn">
@@ -454,7 +442,36 @@ form, select { color: black;}
 	</div>
 	</div>
 
+<script>
 
+	function populateSelect(target){
+		var options=['Elettronico (generico)','Pc Desktop','Pc Laptop',
+			'Tablet','Tv/Monitor','Hardware Rete','Arredamento (generico)',
+			'Sedia','Scrivania','Armadio','Lavagna','Varie',];
+		if (!target){
+	        return false;
+	    }
+	    else {
+	        var min = 0;
+	            max = 12;
+	        
+	        select = document.getElementById(target);
+	        
+	        for (var i = min; i<max; i++){
+	            var opt = document.createElement('option');
+	            opt.value = options[i];
+	            opt.text =options[i];
+	            select.appendChild(opt);
+	        }
+	    }
+	}
+
+	populateSelect('tipoDropdown1');
+	populateSelect('tipoDropdown2');
+	
+
+
+</script>
 
 <script>
 	$(document).ready(function(){

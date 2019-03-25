@@ -115,7 +115,7 @@ form, select { color: black;}
 				    </thead>
 				    <tbody id="myTable">
 				      
-					    <c:forEach items="${listaDipendenti}" var="x">
+					    <c:forEach items="${listaDipendenti}" var="x" varStatus="y">
 							  <tr>
 							  	
 							  	<td>${x.nome}</td>
@@ -141,6 +141,11 @@ form, select { color: black;}
 										  <a href="/amm/deleteDip?id=${x.id_dipendente}" class="btn btn-default btn-xs">Elimina</a>
 										  </div>
 									</div>
+									 <c:if test="${listaIdCv[y.index] > 0}">
+
+										<a href="/file/visualizzaCV?id=${listaIdCv[y.index]}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file">CV</span></a>
+
+									</c:if>
 								</td>
 						  </tr>
 					  </c:forEach>
@@ -192,8 +197,8 @@ form, select { color: black;}
 							        <option value='5'>Admin</option>
 					      		</select>	
 					      	
-					      	<label for="dataInizio">Data inizio contratto</label>
-						    <input type="date" id="dataInizio" name = "dataI">
+					      	<label for="dataInizio" >Data inizio contratto</label>
+						    <input type="date" id="dataInizio" name = "dataI" required>
 						    
 						    <label for="dataFine">Data fine contratto</label>
 						    <input type="date" id="dataFine" name ="dataF">
@@ -238,7 +243,7 @@ form, select { color: black;}
 						    <input type="text" id="indirizzo" name="indirizzo" placeholder="Via/Piazza...">
 						    
 						    <label for="emailDip">Email</label>
-						    <input type="email" id="emailDip" name="email" placeholder="abc@sincrono.it">
+						    <input type="email" id="emailDip" name="email" placeholder="abc@sincrono.it" required>
 						    
 						    <label for="password">Password</label>
 						    <input type="text" id="pass" name="psw" placeholder="">
@@ -254,7 +259,7 @@ form, select { color: black;}
 					      		</select>	
 					      	
 					      	<label for="dataInizio">Data inizio contratto</label>
-						    <input type="date" id="dataInizio" name = "dataI">
+						    <input type="date" id="dataInizio" name = "dataI" required>
 						    
 						    <label for="dataFine">Data fine contratto</label>
 						    <input type="date" id="dataFine" name ="dataF">	    
