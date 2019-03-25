@@ -42,7 +42,41 @@
 
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<artifactId>ecj</artifactId>
+			<version>4.6.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>jsp-api</artifactId>	
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>	
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>sip-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 		<dependency>
 
 			<groupId>org.springframework.boot</groupId>
@@ -70,7 +104,6 @@
 			</exclusions>
 
 		</dependency>
-
 
 
 
@@ -119,43 +152,8 @@
 
 
 
-		<dependency>
-
-			<groupId>javax.servlet</groupId>
-
-			<artifactId>jstl</artifactId>
-
-			<scope>provided</scope>
-			
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>javax.servlet-api</artifactId>
-					
-
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>jsp-api</artifactId>
-				
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-					
-					
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>sip-api</artifactId>
-
-				</exclusion>
-			</exclusions>
-
-		</dependency>
-
-
-
+		
+		
 		<dependency>
 
 			<groupId>org.springframework.security</groupId>
@@ -207,6 +205,14 @@
 				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-dao</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
 				</exclusion>
 			</exclusions>
 
@@ -298,20 +304,6 @@
 
 		</dependency>
 
-		<!-- Need this to compile JSP -->
-
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.jdt.core.compiler</groupId>
-			<artifactId>ecj</artifactId>
-			<version>4.6.1</version>
-		</dependency>
-
-
 
 	</dependencies>
 
@@ -332,7 +324,8 @@
 					<mainClass>com.sincrono.gestionale.SincronizeApplication</mainClass>
 				</configuration>
 			</plugin>
-
+			
+			
 
 
 
