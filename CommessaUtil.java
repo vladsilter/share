@@ -18,8 +18,13 @@ public class CommessaUtil {
 		Date dataF;
 		try {
 			dataI = format.parse(dataInizio);
-			dataF=format.parse(dataFine);
 			c.setData_inizio(dataI);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {		
+			dataF=format.parse(dataFine);
 			c.setData_fine(dataF);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -40,13 +45,19 @@ public class CommessaUtil {
 		Date dataF;
 		try {
 			dataI = format.parse(dataInizio);
-			dataF=format.parse(dataFine);
 			c.setData_inizio(dataI);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {		
+			dataF=format.parse(dataFine);
 			c.setData_fine(dataF);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		cs.save(c);
 	}
 	
