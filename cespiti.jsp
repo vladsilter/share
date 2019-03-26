@@ -447,7 +447,7 @@ form, select { color: black;}
 	function populateSelect(target){
 		var options=['Elettronico (generico)','Pc Desktop','Pc Laptop',
 			'Tablet','Tv/Monitor','Hardware Rete','Arredamento (generico)',
-			'Sedia','Scrivania','Armadio','Lavagna','Varie',];
+			'Sedia','Scrivania','Armadio','Lavagna','Varie'];
 		if (!target){
 	        return false;
 	    }
