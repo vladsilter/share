@@ -1,0 +1,27 @@
+package com.sincrono.gestionale;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import com.sincrono.gestionale.storage.StorageService;
+
+@SpringBootApplication
+public class SincronizeApplication {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(SincronizeApplication.class, args);
+	}
+	
+	@Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+//	    this deletes all of the files in the upload folder when server is started
+//          storageService.deleteAll();
+		
+            storageService.init();
+        };
+    }
+
+}
