@@ -1,0 +1,194 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.sincrono.gestionale.model.CommessaUtil"  %>
+<%@ page import="com.sincrono.gestionale.model.CommessaService" %>
+<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
+<%@ page import="com.sincrono.gestionale.model.Note" %>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.lang.reflect.Array" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Richieste</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link href="../css/main.css" rel="stylesheet" type="text/css">
+<style>
+
+#ri:hover{
+border-color:orange;
+color:orange;
+font-weight:bold;
+}
+#ri:hover #wep{
+background-color:orange;}
+#wep{
+background-color:#c7c7c7}
+
+.my-custom-scrollbar {
+  position: relative;
+  height: 350px;
+  overflow: auto;
+}
+.table-wrapper-scroll-y {
+  display: block;
+}
+</style>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="60" >
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Sincronize</a>
+    </div>
+    <ul class="nav navbar-nav">
+    	<c:forEach items="${sessionScope.viewsMap}" var="x">
+    		<li><a href="${x.key}"><c:out value="${x.value}"></c:out></a></li>
+    	</c:forEach>
+    </ul>
+  </div>
+  <form class="formExit" action="/exit" method="post">
+  	<button class="logoutBtn" style="background-color: red" onclick="">Logout</button>
+  </form>
+</nav> 
+
+	
+	<!-- Sezione Richieste -->
+	<div id="Richieste" style= "padding-top:90px; margin-bottom:50px;">
+		<div class="my">
+			<div class="container">
+			<div class=infiltrato></div>
+			<div class="col-sm-9">
+  			<h2> Gestione richieste</h2>
+  			</div>
+  			<div class="col-sm-3" style= "padding-top:20px;">
+  					<p>VEDI NUOVE RICHIESTE:</p>
+       				<button id="ri" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ric">
+        			<span class="glyphicon glyphicon-zoom-in"></span> Richieste <span id="wep" class="badge"></span>
+       				</button>
+				</div> 
+				
+	
+  	
+				<div class="container" style= "padding-top:20px;">
+				<h3>Lista Richieste</h3>
+ 				<input class="form-control" id="myInput2" type="text" placeholder="Search..">
+ 		 		<br>
+ 		 		<div class="table-wrapper-scroll-y my-custom-scrollbar"  style= "margin-top:30px;">
+  					<table class="table table-bordered table-striped">
+   			 		<thead>
+     					<tr>
+						<th style= "display:none">Id_richiesta</th>
+						<th style= "display:none">id_</th>
+						<th>Richiedente</th>
+						<th colspan="2">stato</th>
+     			 		</tr>
+  					 </thead>
+   			 		 <tbody id="myTable">			
+   			 		<c:forEach items="${richiesteaa}" var="x"  varStatus="status">
+						<tr>
+       					<td style= "display:none">${x.id_richiesta_recupero_psw}</td>
+					  	<td style= "display:none">${x.id_dipendente_psw}</td> 
+					  	<td>${email[status.index]}</td>
+						<td>${x.stato}</td>
+						</tr>
+						</c:forEach>
+					</tbody>
+ 					</table>
+ 				</div>
+ 				
+ 				
+ 				<!-- Modal per vedere lista dei dipendenti non assegnati ad una commessa-->
+	<div id="ric" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<!--  Modal header-->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Assegnazione</h4>
+				</div>
+				
+				<!--   Modal body-->
+				<div class="modal-body">
+					<h3>Lista Nuove Richieste</h3>
+ 					<div class="table-wrapper-scroll-y my-custom-scrollbar">
+  					<table class="table table-bordered table-striped">
+   			 		<thead>
+     					<tr>
+						<th style= "display:none">Id_richiesta</th>
+						<th style= "display:none">id_</th>
+						<th>Richiedente</th>
+						<th colspan="2">stato</th>
+     			 		</tr>
+  					 </thead>
+   			 		 <tbody id="myTableRichieste">			
+   			 		<c:forEach items="${richiesteda}" var="x" varStatus="status" >
+						<tr>
+       					<td style= "display:none">${x.id_richiesta_recupero_psw}</td>
+					  	<td style= "display:none">${x.id_dipendente_psw}</td> 
+					  	<td>${emailri[status.index]}</td>
+						<td>${x.stato}</td>
+						<td><a href="/amm/accetta?id_dipps=${x.id_dipendente_psw}&id_rich=${x.id_richiesta_recupero_psw}" style= "color:#1E88E5" >Accetta</a> /
+						<a href="/amm/respingi?id_rich=${x.id_richiesta_recupero_psw}" style= "color:red">Respingi</a>
+						</td>
+						</tr>
+						</c:forEach>
+					</tbody>
+ 					</table>
+ 				</div>
+ 						<div class="modal-footer">
+  						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+						</div>  
+  					</div>
+  				</div>
+  	
+  				
+  			</div>
+  		</div>
+  	</div>
+ 				
+ 			
+				</div>
+			</div>
+		</div>
+	
+</body>
+<script>
+function NuoveRichieste() {
+  var x = document.getElementById("ric");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+} 
+
+$(document).ready(function(){
+	  $("#myInput").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
+	
+$(document).ready(function(){
+	  $("#myInput2").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
+	
+var count = $('#myTableRichieste tr').length;
+if (count > 0){
+	document.getElementById('wep').innerHTML = count;	
+}
+</script>
+</html>
